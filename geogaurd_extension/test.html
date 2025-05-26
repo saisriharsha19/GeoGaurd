@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoGuard Test with Synthetic Accuracy</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2196F3;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #0b7dda;
+        }
+        button.danger {
+            background-color: #f44336;
+        }
+        button.danger:hover {
+            background-color: #d32f2f;
+        }
+        #status {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .comparison-table {
+            display: flex;
+            gap: 20px;
+        }
+        .comparison-table > div {
+            flex: 1;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            overflow: auto;
+            border-radius: 4px;
+            max-height: 200px;
+        }
+    </style>
+    
+    <!-- Include the location override script before any location requests are made -->
+    <script>
+    // Standalone location override script that doesn't require Chrome extension APIs
+    console.log('GeoGuard: Standalone script loaded');
+
+    // Create global namespace to avoid conflicts
+    window.GeoGuard = window.GeoGuard || {};
+
+    // Default settings
+    window.GeoGuard.settings = {
+      enabled: true,
+      privacyLevel: 5,
+      saveHistory: true
+    };
+
+    // Generate a synthetic accuracy value based on privacy level
+    // Higher privacy level = less accurate (larger value)
+    function generateSyntheticAccuracy(privacyLevel) {
+      // Base accuracy (in meters)
+      const baseAccuracy = 20;
+      
+      // Adjust based on privacy level (1-10)
+      // Higher privacy level means less accuracy (higher number)
+      return baseAccuracy * (1 + privacyLevel / 2);
+    }
+
+    // Store the original geolocation methods
+    const originalGetCurrentPosition = navigator.geolocation.getCurrentPosition;
+    const originalWatchPosition = navigator.geolocation.watchPosition;
+
+    // Override getCurrentPosition
+    navigator.geolocation.getCurrentPosition = function(successCallback, errorCallback, options) {
+      // First get the real position
+      console.log('GeoGuard: Getting original position...');
+      originalGetCurrentPosition.call(navigator.geolocation, 
+        function(position) {
+          console.log('GeoGuard: Original position object', position);
+          
+          // Create a synthetic accuracy if it doesn't exist
+          const originalAccuracy = position.coords.accuracy || 20; // 20 meters default
+          
+          console.log('GeoGuard: Original coords', {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            accuracy: originalAccuracy
+          });
+          
+          // Store original position for display
+          window.originalPosition = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: originalAccuracy
+          };
+          
+          // Contact the backend to get privacy-preserving coordinates
+          fetch('http://127.0.0.1:5000/protect_location', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              privacy_level: window.GeoGuard.settings.privacyLevel,
+              save_history: window.GeoGuard.settings.saveHistory
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('GeoGuard: Backend response', data);
+            
+            // Store backend response for display
+            window.backendResponse = data;
+            
+            // Generate synthetic accuracy based on privacy level
+            const syntheticAccuracy = generateSyntheticAccuracy(data.privacy_level);
+            
+            // Create modified position with coordinates from the backend
+            const modifiedPosition = {
+              coords: {
+                ...position.coords,
+                latitude: data.private.latitude,
+                longitude: data.private.longitude,
+                accuracy: syntheticAccuracy // Add synthetic accuracy
+              },
+              timestamp: position.timestamp
+            };
+            
+            console.log('GeoGuard: Modified position', {
+              lat: modifiedPosition.coords.latitude,
+              lng: modifiedPosition.coords.longitude,
+              accuracy: modifiedPosition.coords.accuracy
+            });
+            
+            // Call the success callback with our modified position
+            successCallback(modifiedPosition);
+            
+            // Update the UI with both positions
+            if (window.updateComparisonUI) {
+                window.updateComparisonUI();
+            }
+          })
+          .catch(error => {
+            console.error('GeoGuard: Backend error', error);
+            // Fall back to original position
+            successCallback(position);
+          });
+        },
+        errorCallback,
+        options
+      );
+    };
+
+    // Override watchPosition for continuous monitoring
+    navigator.geolocation.watchPosition = function(successCallback, errorCallback, options) {
+      // Create a modified callback
+      const modifiedCallback = function(position) {
+        console.log('GeoGuard: Watch original position object', position);
+        
+        // Create a synthetic accuracy if it doesn't exist
+        const originalAccuracy = position.coords.accuracy || 20; // 20 meters default
+        
+        // Store original position
+        window.originalPosition = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: originalAccuracy
+        };
+      
+        // Contact the backend for each position update
+        fetch('http://127.0.0.1:5000/protect_location', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            privacy_level: window.GeoGuard.settings.privacyLevel,
+            save_history: window.GeoGuard.settings.saveHistory
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Store backend response
+          window.backendResponse = data;
+          
+          // Generate synthetic accuracy based on privacy level
+          const syntheticAccuracy = generateSyntheticAccuracy(data.privacy_level);
+          
+          // Create modified position
+          const modifiedPosition = {
+            coords: {
+              ...position.coords,
+              latitude: data.private.latitude,
+              longitude: data.private.longitude,
+              accuracy: syntheticAccuracy // Add synthetic accuracy
+            },
+            timestamp: position.timestamp
+          };
+          
+          successCallback(modifiedPosition);
+          
+          // Update UI
+          if (window.updateComparisonUI) {
+              window.updateComparisonUI();
+          }
+        })
+        .catch(error => {
+          console.error('GeoGuard: Backend error in watch', error);
+          successCallback(position); // Fall back to original
+        });
+      };
+      
+      // Call the original watchPosition with our modified callback
+      return originalWatchPosition.call(
+        navigator.geolocation,
+        modifiedCallback,
+        errorCallback,
+        options
+      );
+    };
+
+    console.log('GeoGuard: Location override active with synthetic accuracy');
+    </script>
+</head>
+<body>
+    <h1>GeoGuard Test with Synthetic Accuracy</h1>
+    
+    <div class="card">
+        <h2>Location Request Test</h2>
+        <p>This page includes a built-in GeoGuard Privacy override that works directly with your backend, with synthetic accuracy values.</p>
+        <button id="getLocationBtn">Get My Location</button>
+        <button id="watchLocationBtn">Watch My Location</button>
+        <button id="stopWatchBtn" disabled>Stop Watching</button>
+        <p id="status">Click a button to start.</p>
+        
+        <h3>Returned Location (What websites see):</h3>
+        <table id="locationTable">
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Latitude</td>
+                <td id="latitude">-</td>
+            </tr>
+            <tr>
+                <td>Longitude</td>
+                <td id="longitude">-</td>
+            </tr>
+            <tr>
+                <td>Accuracy</td>
+                <td id="accuracy">-</td>
+            </tr>
+            <tr>
+                <td>Timestamp</td>
+                <td id="timestamp">-</td>
+            </tr>
+        </table>
+        
+        <h3>Original vs. Private Location:</h3>
+        <div class="comparison-table">
+            <div>
+                <h4>Original Location</h4>
+                <table id="originalTable">
+                    <tr>
+                        <td>Latitude</td>
+                        <td id="originalLat">-</td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td id="originalLng">-</td>
+                    </tr>
+                    <tr>
+                        <td>Accuracy</td>
+                        <td id="originalAccuracy">-</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h4>Private Location</h4>
+                <table id="privateTable">
+                    <tr>
+                        <td>Latitude</td>
+                        <td id="privateLat">-</td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td id="privateLng">-</td>
+                    </tr>
+                    <tr>
+                        <td>Accuracy</td>
+                        <td id="privateAccuracy">-</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td id="locationStatus">-</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div id="debugOutput">
+            <h3>Debug Information:</h3>
+            <pre id="debugInfo">No location data yet</pre>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Backend Status & Controls</h2>
+        <button id="testBackendBtn">Test Backend Connection</button>
+        <p id="backendStatus">Unknown</p>
+        
+        <div>
+            <h3>Privacy Settings:</h3>
+            <div>
+                <label for="privacyLevel">Privacy Level: <span id="privacyLevelValue">5</span></label>
+                <input type="range" min="1" max="10" value="5" class="slider" id="privacyLevel">
+            </div>
+            <div>
+                <input type="checkbox" id="saveHistoryCheck" checked>
+                <label for="saveHistoryCheck">Save location history</label>
+            </div>
+        </div>
+        
+        <div>
+            <h3>History Management:</h3>
+            <button id="clearHistoryBtn" class="danger">Clear Location History</button>
+            <div id="clearHistoryResult"></div>
+        </div>
+    </div>
+
+    <script>
+        // UI Elements
+        const getLocationBtn = document.getElementById('getLocationBtn');
+        const watchLocationBtn = document.getElementById('watchLocationBtn');
+        const stopWatchBtn = document.getElementById('stopWatchBtn');
+        const testBackendBtn = document.getElementById('testBackendBtn');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const clearHistoryResult = document.getElementById('clearHistoryResult');
+        const status = document.getElementById('status');
+        const backendStatus = document.getElementById('backendStatus');
+        const privacyLevel = document.getElementById('privacyLevel');
+        const privacyLevelValue = document.getElementById('privacyLevelValue');
+        const saveHistoryCheck = document.getElementById('saveHistoryCheck');
+        const debugInfo = document.getElementById('debugInfo');
+        
+        // Location display elements
+        const latitudeEl = document.getElementById('latitude');
+        const longitudeEl = document.getElementById('longitude');
+        const accuracyEl = document.getElementById('accuracy');
+        const timestampEl = document.getElementById('timestamp');
+        
+        // Comparison display elements
+        const originalLat = document.getElementById('originalLat');
+        const originalLng = document.getElementById('originalLng');
+        const originalAccuracy = document.getElementById('originalAccuracy');
+        const privateLat = document.getElementById('privateLat');
+        const privateLng = document.getElementById('privateLng');
+        const privateAccuracy = document.getElementById('privateAccuracy');
+        const locationStatus = document.getElementById('locationStatus');
+        
+        let watchId = null;
+        
+        // Function to format the date
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        }
+        
+        // Function to update the UI with location data - FIXED to handle undefined values
+        function updateLocationUI(position) {
+            try {
+                // Add debugging output
+                debugInfo.textContent = JSON.stringify(position, null, 2);
+                
+                // Check if position and coords exist before using them
+                if (position && position.coords) {
+                    // Update the table with the privacy-preserved coordinates (what websites see)
+                    latitudeEl.textContent = position.coords.latitude ? position.coords.latitude.toFixed(6) : 'N/A';
+                    longitudeEl.textContent = position.coords.longitude ? position.coords.longitude.toFixed(6) : 'N/A';
+                    
+                    // Handle accuracy specially
+                    if (position.coords.accuracy !== undefined && position.coords.accuracy !== null) {
+                        accuracyEl.textContent = `${position.coords.accuracy.toFixed(1)} meters`;
+                    } else {
+                        accuracyEl.textContent = 'N/A';
+                    }
+                    
+                    timestampEl.textContent = position.timestamp ? formatDate(position.timestamp) : 'N/A';
+                    
+                    // Update status
+                    status.textContent = 'Location received successfully.';
+                    status.style.color = '#4CAF50';
+                } else {
+                    console.error('GeoGuard: Position object is incomplete', position);
+                    status.textContent = 'Received incomplete position data.';
+                    status.style.color = '#f44336';
+                }
+            } catch (error) {
+                console.error('GeoGuard: Error updating UI', error);
+                status.textContent = 'Error processing location data.';
+                status.style.color = '#f44336';
+            }
+        }
+        
+        // Function to update the comparison UI - FIXED to handle undefined values
+        window.updateComparisonUI = function() {
+            try {
+                if (window.originalPosition) {
+                    originalLat.textContent = window.originalPosition.latitude ? window.originalPosition.latitude.toFixed(6) : 'N/A';
+                    originalLng.textContent = window.originalPosition.longitude ? window.originalPosition.longitude.toFixed(6) : 'N/A';
+                    
+                    // Handle accuracy
+                    if (window.originalPosition.accuracy !== undefined && window.originalPosition.accuracy !== null) {
+                        originalAccuracy.textContent = `${window.originalPosition.accuracy.toFixed(1)} meters`;
+                    } else {
+                        originalAccuracy.textContent = 'N/A';
+                    }
+                }
+                
+                if (window.backendResponse && window.backendResponse.private) {
+                    privateLat.textContent = window.backendResponse.private.latitude ? window.backendResponse.private.latitude.toFixed(6) : 'N/A';
+                    privateLng.textContent = window.backendResponse.private.longitude ? window.backendResponse.private.longitude.toFixed(6) : 'N/A';
+                    
+                    // Add synthetic accuracy to private location display
+                    const syntheticAccuracy = generateSyntheticAccuracy(window.backendResponse.privacy_level);
+                    privateAccuracy.textContent = `${syntheticAccuracy.toFixed(1)} meters (synthetic)`;
+                    
+                    if (window.backendResponse.is_sensitive !== undefined) {
+                        if (window.backendResponse.is_sensitive) {
+                            locationStatus.textContent = 'Sensitive Location';
+                            locationStatus.style.color = '#f44336';
+                        } else {
+                            locationStatus.textContent = 'Regular Location';
+                            locationStatus.style.color = '#4CAF50';
+                        }
+                    } else {
+                        locationStatus.textContent = 'Status Unknown';
+                        locationStatus.style.color = '#FF9800';
+                    }
+                }
+            } catch (error) {
+                console.error('GeoGuard: Error updating comparison UI', error);
+            }
+        };
+        
+        // Function to handle errors
+        function handleError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    status.textContent = 'Location access denied. Please allow location access for this site.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    status.textContent = 'Location information is unavailable.';
+                    break;
+                case error.TIMEOUT:
+                    status.textContent = 'Location request timed out.';
+                    break;
+                case error.UNKNOWN_ERROR:
+                    status.textContent = 'An unknown error occurred.';
+                    break;
+            }
+            status.style.color = '#f44336';
+        }
+        
+        // Test backend connection
+        function testBackendConnection() {
+            backendStatus.textContent = 'Testing connection...';
+            backendStatus.style.color = '#2196F3';
+            
+            fetch('http://127.0.0.1:5000/status')
+                .then(response => response.json())
+                .then(data => {
+                    backendStatus.textContent = `Connected (${data.version || 'Unknown version'})`;
+                    backendStatus.style.color = '#4CAF50';
+                })
+                .catch(error => {
+                    backendStatus.textContent = 'Connection failed. Is the backend running?';
+                    backendStatus.style.color = '#f44336';
+                    console.error('Backend connection error:', error);
+                });
+        }
+        
+        // Clear location history
+        function clearLocationHistory() {
+            clearHistoryResult.textContent = 'Clearing history...';
+            clearHistoryResult.style.color = '#2196F3';
+            
+            fetch('http://127.0.0.1:5000/clear_history', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    confirm: true
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('GeoGuard: Clear history response', data);
+                if (data.status === 'success') {
+                    clearHistoryResult.textContent = 'History cleared successfully.';
+                    clearHistoryResult.style.color = '#4CAF50';
+                } else {
+                    clearHistoryResult.textContent = 'Error: ' + (data.message || 'Unknown error');
+                    clearHistoryResult.style.color = '#f44336';
+                }
+            })
+            .catch(error => {
+                console.error('GeoGuard: Clear history error', error);
+                clearHistoryResult.textContent = 'Request failed. Is the backend running?';
+                clearHistoryResult.style.color = '#f44336';
+            });
+        }
+        
+        // Update privacy settings
+        function updatePrivacySettings() {
+            window.GeoGuard.settings.privacyLevel = parseInt(privacyLevel.value);
+            window.GeoGuard.settings.saveHistory = saveHistoryCheck.checked;
+            console.log('GeoGuard: Updated settings', window.GeoGuard.settings);
+        }
+        
+        // Get location once
+        getLocationBtn.addEventListener('click', function() {
+            status.textContent = 'Requesting location...';
+            status.style.color = '#2196F3';
+            
+            if (!navigator.geolocation) {
+                status.textContent = 'Geolocation is not supported by your browser.';
+                status.style.color = '#f44336';
+                return;
+            }
+            
+            // Update settings before requesting
+            updatePrivacySettings();
+            
+            navigator.geolocation.getCurrentPosition(updateLocationUI, handleError, {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            });
+        });
+        
+        // Watch location continuously
+        watchLocationBtn.addEventListener('click', function() {
+            status.textContent = 'Watching location...';
+            status.style.color = '#2196F3';
+            
+            if (!navigator.geolocation) {
+                status.textContent = 'Geolocation is not supported by your browser.';
+                status.style.color = '#f44336';
+                return;
+            }
+            
+            // Update settings before watching
+            updatePrivacySettings();
+            
+            // Disable watch button, enable stop button
+            watchLocationBtn.disabled = true;
+            stopWatchBtn.disabled = false;
+            
+            watchId = navigator.geolocation.watchPosition(updateLocationUI, handleError, {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            });
+        });
+        
+        // Stop watching location
+        stopWatchBtn.addEventListener('click', function() {
+            if (watchId !== null) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                
+                // Enable watch button, disable stop button
+                watchLocationBtn.disabled = false;
+                stopWatchBtn.disabled = true;
+                
+                status.textContent = 'Location watching stopped.';
+                status.style.color = '#FF9800';
+            }
+        });
+        
+        // Test backend connection
+        testBackendBtn.addEventListener('click', testBackendConnection);
+        
+        // Clear location history
+        clearHistoryBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear your location history? This will reset all POIs and sensitive locations.')) {
+                clearLocationHistory();
+            }
+        });
+        
+        // Update privacy level display
+        privacyLevel.addEventListener('input', function() {
+            privacyLevelValue.textContent = privacyLevel.value;
+        });
+        
+        // Test connection on page load
+        testBackendConnection();
+    </script>
+</body>
+</html>

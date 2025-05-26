@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>GeoGuard Advanced Options</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+      line-height: 1.5;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #2196F3;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    h2 {
+      font-size: 18px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .section {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    
+    input[type="number"] {
+      width: 100px;
+    }
+    
+    button {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #0b7dda;
+    }
+    
+    .btn-secondary {
+      background-color: #f1f1f1;
+      color: #333;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #ddd;
+    }
+    
+    .btn-danger {
+      background-color: #f44336;
+    }
+    
+    .btn-danger:hover {
+      background-color: #d32f2f;
+    }
+    
+    .site-list {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .site-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .site-item:last-child {
+      border-bottom: none;
+    }
+    
+    .site-item button {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    
+    .site-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .site-actions input {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+    
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    
+    .history-table th,
+    .history-table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .history-table th {
+      font-weight: 500;
+      background-color: #f1f1f1;
+    }
+    
+    .history-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    .history-pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .status-message {
+      color: #4CAF50;
+      margin-top: 10px;
+      padding: 8px;
+      background-color: #E8F5E9;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .status-message.error {
+      color: #F44336;
+      background-color: #FFEBEE;
+    }
+    
+    .sensitive-badge {
+      background-color: #f44336;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-left: 6px;
+    }
+    
+    .help-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>GeoGuard Advanced Options</h1>
+  
+  <div class="section">
+    <h2>Protected Websites</h2>
+    <p>Manage which websites should have location privacy protection.</p>
+    
+    <div class="form-group">
+      <label>
+        <input type="radio" name="protectionScope" id="protectAllSites" value="all">
+        Protect all websites
+      </label>
+      <p class="help-text">Apply location privacy protection to all websites that request your location.</p>
+    </div>
+    
+    <div class="form-group">
+      <label>
+        <input type="radio" name="protectionScope" id="protectSpecificSites" value="specific">
+        Protect only specific websites
+      </label>
+      <p class="help-text">Only apply protection to the websites listed below.</p>
+    </div>
+    
+    <div id="siteListContainer">
+      <div class="site-list" id="protectedSiteList">
+        <!-- Protected sites will be added here dynamically -->
+      </div>
+      
+      <div class="site-actions">
+        <input type="text" id="newSiteInput" placeholder="Enter domain (e.g., example.com or *.example.com)">
+        <button id="addSiteBtn" class="btn-secondary">Add Site</button>
+      </div>
+      
+      <div class="site-actions" style="margin-top: 5px;">
+        <button id="importFromCurrentBtn" class="btn-secondary">Import Current Tab</button>
+        <button id="clearAllSitesBtn" class="btn-danger">Clear All</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Privacy Settings</h2>
+    
+    <div class="form-group">
+      <label for="privacyLevelInput">Default Privacy Level (1-10)</label>
+      <input type="number" id="privacyLevelInput" min="1" max="10" value="5">
+      <div class="help-text">Higher values create more distance between your actual and reported location.</div>
+    </div>
+    
+    <div class="form-group">
+      <label for="sensitivityRadiusInput">Sensitivity Radius (meters)</label>
+      <input type="number" id="sensitivityRadiusInput" min="10" max="1000" value="100">
+      <div class="help-text">Distance around frequent locations to consider as sensitive and apply enhanced protection.</div>
+    </div>
+    
+    <div class="form-group">
+      <label for="poiThresholdInput">Point of Interest Threshold</label>
+      <input type="number" id="poiThresholdInput" min="2" max="20" value="5">
+      <div class="help-text">Number of visits to consider a location as frequently visited.</div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Location History</h2>
+    <p>View and manage your location history used for determining sensitive locations.</p>
+    
+    <div class="form-group">
+      <label>Total Entries: <span id="historyCount">0</span></label>
+      <label>Sensitive Locations: <span id="sensitiveCount">0</span></label>
+    </div>
+    
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Date & Time</th>
+          <th>Coordinates</th>
+          <th>Protection Level</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="historyTableBody">
+        <!-- History entries will be added here dynamically -->
+      </tbody>
+    </table>
+    
+    <div class="history-pagination">
+      <button id="prevPageBtn" class="btn-secondary" disabled>Previous</button>
+      <span>Page <span id="currentPage">1</span> of <span id="totalPages">1</span></span>
+      <button id="nextPageBtn" class="btn-secondary" disabled>Next</button>
+    </div>
+    
+    <div class="site-actions" style="margin-top: 20px;">
+      <button id="exportHistoryBtn" class="btn-secondary">Export History</button>
+      <button id="clearHistoryBtn" class="btn-danger">Clear History</button>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Advanced Settings</h2>
+    
+    <div class="form-group">
+      <label for="backendUrlInput">Backend Server URL</label>
+      <input type="text" id="backendUrlInput" value="http://localhost:5000">
+      <div class="help-text">Address of the GeoGuard privacy backend server.</div>
+    </div>
+    
+    <div class="site-actions">
+      <button id="testConnectionBtn" class="btn-secondary">Test Connection</button>
+      <button id="resetSettingsBtn" class="btn-danger">Reset All Settings</button>
+    </div>
+    
+    <div id="connectionStatus" class="status-message"></div>
+  </div>
+  
+  <div class="section">
+    <h2>About GeoGuard</h2>
+    <p>
+      GeoGuard is a privacy-focused browser extension that protects your location data with context-aware privacy mechanisms.
+      It uses machine learning to identify sensitive locations and applies stronger protection to places you visit frequently.
+    </p>
+    <p>
+      Version: 1.0<br>
+      Developed with ❤️ for privacy
+    </p>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,725 @@
+{
+  "test_timestamp": "2025-03-08T23:28:45.174285",
+  "history_size": 1021,
+  "test_results": [
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.774859209922845,
+        "longitude": -122.41947970329598
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.77290043044838,
+        "longitude": -122.41565838018886
+      },
+      "approximate_distance_meters": 400.0000000006383,
+      "scenario": "home_location",
+      "test_number": 0
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.774929934355235,
+        "longitude": -122.41944826617168
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.77133203373548,
+        "longitude": -122.41960392042606
+      },
+      "approximate_distance_meters": 400.0000000000731,
+      "scenario": "home_location",
+      "test_number": 1
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.77484220549703,
+        "longitude": -122.41947662411606
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.77125525485605,
+        "longitude": -122.4190891285135
+      },
+      "approximate_distance_meters": 399.9999999998743,
+      "scenario": "home_location",
+      "test_number": 2
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.774880033741354,
+        "longitude": -122.41934430990725
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.778165478830616,
+        "longitude": -122.41748240748687
+      },
+      "approximate_distance_meters": 399.99999999984834,
+      "scenario": "home_location",
+      "test_number": 3
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.77494950563151,
+        "longitude": -122.41936464014007
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.77156859861239,
+        "longitude": -122.42092927974929
+      },
+      "approximate_distance_meters": 399.9999999999026,
+      "scenario": "home_location",
+      "test_number": 4
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.77501126382509,
+        "longitude": -122.41944050869334
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.774079974534665,
+        "longitude": -122.42384000496243
+      },
+      "approximate_distance_meters": 399.9999999997261,
+      "scenario": "home_location",
+      "test_number": 5
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.77499899931777,
+        "longitude": -122.41933223562943
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.77683346469966,
+        "longitude": -122.41541339239382
+      },
+      "approximate_distance_meters": 400.00000000062175,
+      "scenario": "home_location",
+      "test_number": 6
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.77484973098143,
+        "longitude": -122.41936591722883
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.77142213805986,
+        "longitude": -122.41797332045299
+      },
+      "approximate_distance_meters": 399.99999999995157,
+      "scenario": "home_location",
+      "test_number": 7
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.774854275684675,
+        "longitude": -122.41935674284115
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.77453179399636,
+        "longitude": -122.42389295528544
+      },
+      "approximate_distance_meters": 400.0000000001811,
+      "scenario": "home_location",
+      "test_number": 8
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.774958689357874,
+        "longitude": -122.41949026378595
+      },
+      "privacy_level": 8,
+      "private": {
+        "latitude": 37.7719752755885,
+        "longitude": -122.41694129563695
+      },
+      "approximate_distance_meters": 399.99999999963734,
+      "scenario": "home_location",
+      "test_number": 9
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.78945693792591,
+        "longitude": -122.4004529136981
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.787256226772136,
+        "longitude": -122.40330479545418
+      },
+      "approximate_distance_meters": 350.0000000004821,
+      "scenario": "work_location",
+      "test_number": 0
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.789358998609906,
+        "longitude": -122.40057834596847
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.79138366042798,
+        "longitude": -122.39752477230157
+      },
+      "approximate_distance_meters": 349.9999999997722,
+      "scenario": "work_location",
+      "test_number": 1
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.78932044215082,
+        "longitude": -122.40060173670919
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.79223873545571,
+        "longitude": -122.39910125550442
+      },
+      "approximate_distance_meters": 349.9999999999308,
+      "scenario": "work_location",
+      "test_number": 2
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.789374680666555,
+        "longitude": -122.40042807992192
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.78744367586658,
+        "longitude": -122.39727886908992
+      },
+      "approximate_distance_meters": 350.0000000001124,
+      "scenario": "work_location",
+      "test_number": 3
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.78938640166646,
+        "longitude": -122.40050887829356
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.7892831126376,
+        "longitude": -122.40449272571271
+      },
+      "approximate_distance_meters": 349.9999999997403,
+      "scenario": "work_location",
+      "test_number": 4
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.78939134546232,
+        "longitude": -122.40049834519468
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.788277646403614,
+        "longitude": -122.39676979419704
+      },
+      "approximate_distance_meters": 350.00000000056286,
+      "scenario": "work_location",
+      "test_number": 5
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.78927036390489,
+        "longitude": -122.4005661751655
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.78775939238273,
+        "longitude": -122.40406366665101
+      },
+      "approximate_distance_meters": 349.9999999998164,
+      "scenario": "work_location",
+      "test_number": 6
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.78936736461789,
+        "longitude": -122.40043205906471
+      },
+      "privacy_level": 7,
+      "private": {
+        "latitude": 37.7909373660825,
+        "longitude": -122.39697644538805
+      },
+      "approximate_distance_meters": 350.000000000232,
+      "scenario": "work_location",
+      "test_number": 7
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.783833856543346,
+        "longitude": -122.40925511583363
+      },
+      "privacy_level": 5,
+      "private": {
+        "latitude": 37.78391338231454,
+        "longitude": -122.40921735507935
+      },
+      "approximate_distance_meters": 9.437880774168216,
+      "scenario": "coffee_shop",
+      "test_number": 0
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.78392130873269,
+        "longitude": -122.40923148308299
+      },
+      "privacy_level": 5,
+      "private": {
+        "latitude": 37.78383121413637,
+        "longitude": -122.40932471271881
+      },
+      "approximate_distance_meters": 12.93193532681849,
+      "scenario": "coffee_shop",
+      "test_number": 1
+    },
+    {
+      "is_sensitive": true,
+      "original": {
+        "latitude": 37.783878312326024,
+        "longitude": -122.40922354013188
+      },
+      "privacy_level": 5,
+      "private": {
+        "latitude": 37.78385150294067,
+        "longitude": -122.40922165760178
+      },
+      "approximate_distance_meters": 2.983401189307084,
+      "scenario": "coffee_shop",
+      "test_number": 2
+    },
+    {
+      "is_sensitive": false,
+      "original": {
+        "latitude": 37.76894817789128,
+        "longitude": -122.48622420306681
+      },
+      "privacy_level": 3,
+      "private": {
+        "latitude": 37.77485780323441,
+        "longitude": -122.41944198452589
+      },
+      "approximate_distance_meters": 5902.24146729482,
+      "scenario": "one_time_location",
+      "test_number": 0
+    },
+    {
+      "path_results": [
+        [
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.774929,
+              "longitude": -122.419416
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.774808112297556,
+              "longitude": -122.41942107057882
+            },
+            "scenario": "moving_path",
+            "point_number": 0,
+            "repeat_number": 0
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.778653,
+              "longitude": -122.414958
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.77852789915971,
+              "longitude": -122.41491208611707
+            },
+            "scenario": "moving_path",
+            "point_number": 1,
+            "repeat_number": 0
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.781998,
+              "longitude": -122.410667
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78205655987798,
+              "longitude": -122.4105144648354
+            },
+            "scenario": "moving_path",
+            "point_number": 2,
+            "repeat_number": 0
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.785331,
+              "longitude": -122.406032
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78532349299383,
+              "longitude": -122.40587661120416
+            },
+            "scenario": "moving_path",
+            "point_number": 3,
+            "repeat_number": 0
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.789366,
+              "longitude": -122.400526
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78927905125243,
+              "longitude": -122.40042298261717
+            },
+            "scenario": "moving_path",
+            "point_number": 4,
+            "repeat_number": 0
+          }
+        ],
+        [
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.774929,
+              "longitude": -122.419416
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.77481622530014,
+              "longitude": -122.41936702301754
+            },
+            "scenario": "moving_path",
+            "point_number": 0,
+            "repeat_number": 1
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.778653,
+              "longitude": -122.414958
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.7787296158058,
+              "longitude": -122.41485000121565
+            },
+            "scenario": "moving_path",
+            "point_number": 1,
+            "repeat_number": 1
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.781998,
+              "longitude": -122.410667
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78210849909128,
+              "longitude": -122.41069241951638
+            },
+            "scenario": "moving_path",
+            "point_number": 2,
+            "repeat_number": 1
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.785331,
+              "longitude": -122.406032
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78521363874197,
+              "longitude": -122.40592043042656
+            },
+            "scenario": "moving_path",
+            "point_number": 3,
+            "repeat_number": 1
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.789366,
+              "longitude": -122.400526
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.789456111269864,
+              "longitude": -122.40062276409002
+            },
+            "scenario": "moving_path",
+            "point_number": 4,
+            "repeat_number": 1
+          }
+        ],
+        [
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.774929,
+              "longitude": -122.419416
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.77483478645089,
+              "longitude": -122.41951716681386
+            },
+            "scenario": "moving_path",
+            "point_number": 0,
+            "repeat_number": 2
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.778653,
+              "longitude": -122.414958
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.77860575314848,
+              "longitude": -122.41509023639871
+            },
+            "scenario": "moving_path",
+            "point_number": 1,
+            "repeat_number": 2
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.781998,
+              "longitude": -122.410667
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78187301600018,
+              "longitude": -122.41071021322836
+            },
+            "scenario": "moving_path",
+            "point_number": 2,
+            "repeat_number": 2
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.785331,
+              "longitude": -122.406032
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78517233050384,
+              "longitude": -122.40603063853646
+            },
+            "scenario": "moving_path",
+            "point_number": 3,
+            "repeat_number": 2
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.789366,
+              "longitude": -122.400526
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78936874273824,
+              "longitude": -122.40067161026573
+            },
+            "scenario": "moving_path",
+            "point_number": 4,
+            "repeat_number": 2
+          }
+        ],
+        [
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.774929,
+              "longitude": -122.419416
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.774974916211015,
+              "longitude": -122.4192824622456
+            },
+            "scenario": "moving_path",
+            "point_number": 0,
+            "repeat_number": 3
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.778653,
+              "longitude": -122.414958
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.778542896752256,
+              "longitude": -122.41487017845795
+            },
+            "scenario": "moving_path",
+            "point_number": 1,
+            "repeat_number": 3
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.781998,
+              "longitude": -122.410667
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78207261148894,
+              "longitude": -122.41053128377942
+            },
+            "scenario": "moving_path",
+            "point_number": 2,
+            "repeat_number": 3
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.785331,
+              "longitude": -122.406032
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78542906946665,
+              "longitude": -122.40609975336206
+            },
+            "scenario": "moving_path",
+            "point_number": 3,
+            "repeat_number": 3
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.789366,
+              "longitude": -122.400526
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78933448471137,
+              "longitude": -122.40066532412304
+            },
+            "scenario": "moving_path",
+            "point_number": 4,
+            "repeat_number": 3
+          }
+        ],
+        [
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.774929,
+              "longitude": -122.419416
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.774874361632854,
+              "longitude": -122.41955737375073
+            },
+            "scenario": "moving_path",
+            "point_number": 0,
+            "repeat_number": 4
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.778653,
+              "longitude": -122.414958
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.77871342330247,
+              "longitude": -122.4150675692952
+            },
+            "scenario": "moving_path",
+            "point_number": 1,
+            "repeat_number": 4
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.781998,
+              "longitude": -122.410667
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.78187078051524,
+              "longitude": -122.41070164859751
+            },
+            "scenario": "moving_path",
+            "point_number": 2,
+            "repeat_number": 4
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.785331,
+              "longitude": -122.406032
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.785386452868515,
+              "longitude": -122.40617366370785
+            },
+            "scenario": "moving_path",
+            "point_number": 3,
+            "repeat_number": 4
+          },
+          {
+            "is_sensitive": true,
+            "original": {
+              "latitude": 37.789366,
+              "longitude": -122.400526
+            },
+            "privacy_level": 5,
+            "private": {
+              "latitude": 37.7892703451504,
+              "longitude": -122.40043730489067
+            },
+            "scenario": "moving_path",
+            "point_number": 4,
+            "repeat_number": 4
+          }
+        ]
+      ]
+    }
+  ]
+}

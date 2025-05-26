@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>GeoGuard Privacy</title>
+  <link rel="stylesheet" href="popup.css">
+  <!-- Add fallback styling in case CSS fails to load -->
+  <style>
+    body { font-family: sans-serif; width: 380px; }
+    .container { padding: 15px; }
+    button { cursor: pointer; padding: 8px 12px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>GeoGuard Privacy</h1>
+      <div class="status-indicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Checking...</span>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="general">General</button>
+      <button class="tab-button" data-tab="sites">Websites</button>
+      <button class="tab-button" data-tab="stats">Statistics</button>
+    </div>
+
+    <div class="tab-content" id="general-tab">
+      <div class="toggle-container">
+        <label class="switch">
+          <input type="checkbox" id="privacyToggle" checked>
+          <span class="slider round"></span>
+        </label>
+        <span class="toggle-label">Enable Privacy Protection</span>
+      </div>
+
+      <div class="privacy-level">
+        <label for="privacyLevel">Privacy Level: <span id="privacyLevelValue">5</span></label>
+        <input type="range" min="1" max="10" value="5" class="slider" id="privacyLevel">
+        <div class="level-indicators">
+          <span>Low</span>
+          <span>Medium</span>
+          <span>High</span>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Settings</h2>
+        <div class="checkbox-option">
+          <input type="checkbox" id="saveHistory" checked>
+          <label for="saveHistory">Save location history for better protection</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="protectSensitive" checked>
+          <label for="protectSensitive">Auto-increase protection for sensitive locations</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="enforceMinimumPrivacy" checked>
+          <label for="enforceMinimumPrivacy">Enforce minimum privacy level for sensitive locations</label>
+        </div>
+      </div>
+
+      <div class="location-info">
+        <h2>Current Location</h2>
+        <div id="locationLoadingIndicator">Waiting for location data...</div>
+        <div id="locationDataContainer" class="hidden">
+          <div class="location-field">
+            <span class="field-label">Original:</span>
+            <span id="originalLocation">Not available</span>
+          </div>
+          <div class="location-field">
+            <span class="field-label">Private:</span>
+            <span id="privateLocation">Not available</span>
+          </div>
+          <div class="location-field">
+            <span class="field-label">Status:</span>
+            <span id="locationStatus">-</span>
+          </div>
+          <div class="location-field">
+            <span class="field-label">Accuracy:</span>
+            <span id="accuracyInfo">-</span>
+          </div>
+          <div class="location-field">
+            <span class="field-label">Distance:</span>
+            <span id="distanceInfo">-</span>
+          </div>
+          <div class="location-field">
+            <span class="field-label">Timestamp:</span>
+            <span id="timestampInfo">-</span>
+          </div>
+        </div>
+        <div id="locationErrorIndicator" class="hidden error-text">
+          Error getting location. Please make sure location services are enabled.
+        </div>
+        <button id="refreshLocationBtn" class="secondary-btn" style="margin-top: 8px;">Refresh Location</button>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="sites-tab">
+      <div class="site-controls">
+        <h2>Website Settings</h2>
+        <p>Configure privacy settings for specific websites</p>
+        
+        <div class="current-site">
+          <h3>Current Website</h3>
+          <div class="site-info">
+            <span class="site-url" id="currentSiteUrl">-</span>
+          </div>
+          <div class="site-toggle">
+            <label class="switch">
+              <input type="checkbox" id="sitePrivacyToggle" checked>
+              <span class="slider round"></span>
+            </label>
+            <span>Enable for this site</span>
+          </div>
+          <div class="site-privacy-level">
+            <label for="sitePrivacyLevel">Site Privacy Level: <span id="sitePrivacyLevelValue">5</span></label>
+            <input type="range" min="1" max="10" value="5" class="slider" id="sitePrivacyLevel">
+          </div>
+          <button id="saveSiteSettingsBtn" class="primary-btn">Save Site Settings</button>
+        </div>
+        
+        <div class="site-list">
+          <h3>Saved Websites</h3>
+          <div class="search-container">
+            <input type="text" id="siteSearch" placeholder="Search websites...">
+          </div>
+          <div id="sitesList" class="sites-container">
+            <!-- Sites will be populated here -->
+            <div class="no-sites">No specific website settings saved yet</div>
+          </div>
+          <div class="site-actions">
+            <button id="addNewSiteBtn" class="secondary-btn">Add New Site</button>
+            <button id="clearAllSitesBtn" class="danger-btn">Clear All Sites</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="stats-tab">
+      <div class="stats-section">
+        <h2>Protection Statistics</h2>
+        <div id="statsLoadingIndicator">Loading statistics...</div>
+        <div id="statsContent" class="hidden">
+          <div class="stat-item">
+            <span class="stat-label">POIs Detected:</span>
+            <span id="poisDetected">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Locations Saved:</span>
+            <span id="locationsSaved">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Clusters Found:</span>
+            <span id="clustersFound">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Websites Protected:</span>
+            <span id="sitesProtected">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Active Since:</span>
+            <span id="activeSince">-</span>
+          </div>
+        </div>
+        <div id="statsErrorIndicator" class="hidden error-text">
+          Failed to load statistics. Server may be offline.
+        </div>
+        <button id="refreshStatsBtn" class="primary-btn">Refresh Statistics</button>
+      </div>
+      
+      <div class="backend-status">
+        <h2>Backend Status</h2>
+        <div class="stat-item">
+          <span class="stat-label">Server Status:</span>
+          <span id="serverStatus">-</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Version:</span>
+          <span id="serverVersion">-</span>
+        </div>
+        <button id="testConnectionBtn" class="primary-btn">Test Connection</button>
+      </div>
+      
+      <div class="history-management">
+        <h2>History Management</h2>
+        <p>Clearing your location history will reset all POIs and sensitive locations.</p>
+        <button id="clearHistoryBtn" class="danger-btn">Clear Location History</button>
+        <button id="exportDataBtn" class="secondary-btn">Export Data</button>
+      </div>
+    </div>
+
+    <div id="addSiteModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add Website</h2>
+        <div class="form-group">
+          <label for="newSiteUrl">Website URL:</label>
+          <input type="text" id="newSiteUrl" placeholder="example.com">
+        </div>
+        <div class="form-group">
+          <label for="newSitePrivacyLevel">Privacy Level:</label>
+          <input type="range" min="1" max="10" value="5" class="slider" id="newSitePrivacyLevel">
+          <span id="newSitePrivacyValue">5</span>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="newSiteEnabled" checked>
+          <label for="newSiteEnabled">Enable protection</label>
+        </div>
+        <div class="modal-actions">
+          <button id="cancelAddSite" class="secondary-btn">Cancel</button>
+          <button id="confirmAddSite" class="primary-btn">Add Website</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add a toast notification container -->
+    <div id="toast" class="toast hidden">
+      <div id="toastMessage"></div>
+    </div>
+  </div>
+
+  <!-- Main script and fallback script -->
+  <script src="popup.js"></script>
+</body>
+</html>

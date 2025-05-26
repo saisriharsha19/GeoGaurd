@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to GeoGuard</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f5f8fa;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 36px;
+      margin: 0;
+      color: #2196F3;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    
+    .feature-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      flex: 1 1 200px;
+      transition: transform 0.2s;
+    }
+    
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature h3 {
+      margin-top: 0;
+      color: #2196F3;
+    }
+    
+    .feature-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #2196F3;
+    }
+    
+    .steps {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin: 30px 0;
+    }
+    
+    .step {
+      display: flex;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    
+    .step:last-child {
+      margin-bottom: 0;
+    }
+    
+    .step-number {
+      background: #2196F3;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    
+    .step p {
+      margin: 0;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background-color: #2196F3;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    
+    .cta-button:hover {
+      background-color: #0b7dda;
+    }
+    
+    .footnote {
+      font-size: 14px;
+      color: #666;
+      margin-top: 40px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="icons/icon128.png" alt="GeoGuard Logo" class="logo">
+      <h1>Welcome to GeoGuard</h1>
+      <p>Your context-aware location privacy protector</p>
+    </header>
+    
+    <section>
+      <h2>What is GeoGuard?</h2>
+      <p>
+        GeoGuard is an intelligent browser extension that protects your location privacy 
+        whenever websites request your geographical coordinates. Unlike simple location 
+        blockers, GeoGuard uses context-aware privacy mechanisms that adapt to your privacy 
+        needs while maintaining functionality on location-based services.
+      </p>
+      
+      <div class="feature-container">
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <h3>Smart Protection</h3>
+          <p>Intelligently obscures your location based on the privacy level you choose.</p>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">🏠</div>
+          <h3>Sensitive Location Detection</h3>
+          <p>Automatically detects and applies stronger protection to places you visit frequently.</p>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">⚙️</div>
+          <h3>Flexible Controls</h3>
+          <p>Configure protection to work on all sites or only specific websites.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>How It Works</h2>
+      <p>
+        GeoGuard uses machine learning to understand your location patterns and identify sensitive 
+        areas like your home or workplace. When a website requests your location, GeoGuard creates 
+        a privacy-preserving version of your coordinates that keeps you within the general area but 
+        protects your exact position.
+      </p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Intercept Location Requests</h3>
+            <p>GeoGuard safely intercepts location requests from websites before they get your real coordinates.</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Apply Context-Aware Privacy</h3>
+            <p>Our backend analyzes the location to determine if it's sensitive, then applies the appropriate level of protection.</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Return Protected Coordinates</h3>
+            <p>The website receives modified coordinates that protect your privacy while still enabling location-based features.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Getting Started</h2>
+      <p>
+        GeoGuard is ready to use with default settings, but you can customize it to fit your privacy needs. 
+        The extension is active by default with a medium privacy level (5) that protects all websites.
+      </p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Check Your Backend Server</h3>
+            <p>Make sure your Python backend server is running at http://localhost:5000 (or configure a different address in settings).</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Adjust Privacy Level</h3>
+            <p>Click the GeoGuard icon and use the slider to adjust your preferred privacy level from 1 (minimal) to 10 (maximum).</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Configure Protected Websites</h3>
+            <p>Choose to protect all websites or only specific domains in the extension settings.</p>
+          </div>
+        </div>
+      </div>
+      
+      <a href="#" class="cta-button" id="openOptionsBtn">Open GeoGuard Settings</a>
+    </section>
+    
+    <div class="footnote">
+      <p>
+        GeoGuard is designed to enhance your online privacy. While it provides strong location privacy protection, 
+        no solution is completely perfect. For the highest level of privacy, consider disabling location services entirely when not needed.
+      </p>
+      <p>
+        Version 1.0<br>
+        Developed with ❤️ for privacy
+      </p>
+    </div>
+  </div>
+</body>
+</html>
